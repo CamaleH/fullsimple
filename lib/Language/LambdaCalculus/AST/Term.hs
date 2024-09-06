@@ -16,6 +16,10 @@ data Term =
   | TmIf  Info Term Term Term 
   | TmTrue Info 
   | TmFalse Info 
+  | TmZero Info
+  | TmSucc Info Term
+  | TmPred Info Term
+  | TmIszero Info Term
   deriving (Show)
 
 getInfo :: Term -> Info
@@ -25,3 +29,7 @@ getInfo (TmApp info _ _) = info
 getInfo (TmIf info _ _ _) = info
 getInfo (TmTrue info ) = info
 getInfo (TmFalse info ) = info
+getInfo (TmZero info) = info
+getInfo (TmSucc info _) = info
+getInfo (TmPred info _) = info
+getInfo (TmIszero info _) = info

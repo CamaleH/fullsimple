@@ -20,3 +20,9 @@ main = putStrLn "Hello, Haskell!"
 
 -- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "\\xxx:Bool. xxx") >>= parsing "stdin")
 -- Right "(\\\"xxx\":Bool.\"xxx\")"
+
+-- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "(\\x:Nat.succ x) 0") >>= parsing "stdin")
+-- Right "succ 0"
+
+-- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "iszero ((\\x:Nat.succ x) 0)") >>= parsing "stdin")
+-- Right "false"

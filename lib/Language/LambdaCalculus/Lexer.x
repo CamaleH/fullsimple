@@ -35,6 +35,10 @@ tokens :-
 <0>  if                             { tok TkIf }
 <0>  then                           { tok TkThen }
 <0>  else                           { tok TkElse }
+<0>  "0"                            { tok TkZero }
+<0>  succ                           { tok TkSucc }
+<0>  pred                           { tok TkPred }
+<0>  iszero                         { tok TkIszero }
 -- Identifiers
 <0>  @id                            { tokId }
 
@@ -50,10 +54,11 @@ data AlexUserState = AlexUserState
   }
 
 alexInitUserState = AlexUserState 
-  { nextSym = 3
+  { nextSym = 4
   , table = HM.fromList [(BS.pack "Bool",0)
                         ,(BS.pack "true",1)
-                        ,(BS.pack "false",2)]
+                        ,(BS.pack "false",2)
+                        ,(BS.pack "Nat", 3)]
   }
 
 data InfoToken = InfoToken

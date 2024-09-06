@@ -14,9 +14,13 @@ import Text.Parsec.Combinator
 parseTyBool :: LCParser Ty 
 parseTyBool = matchTok (TkId $ Symbol (0,BS.empty)) >> return TyBool
 
+parseTyNat :: LCParser Ty 
+parseTyNat = matchTok (TkId $ Symbol (3,BS.empty)) >> return TyNat
+
 parseNonTyArr :: LCParser Ty
 parseNonTyArr = parens parseType
             <|> parseTyBool
+            <|> parseTyNat
 
 parseTyArr :: LCParser (Ty -> Ty -> Ty)
 parseTyArr = matchTok TkArrow >> return TyArr

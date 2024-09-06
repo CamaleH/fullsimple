@@ -16,6 +16,10 @@ termShift d = walk 0
         TmIf fi t1 t2 t3  -> TmIf fi (walk c t1) (walk c t2) (walk c t3)
         TmTrue _          -> t
         TmFalse _         -> t
+        TmZero _          -> t
+        TmSucc fi t1      -> TmSucc fi (walk c t1)
+        TmPred fi t1      -> TmPred fi (walk c t1)
+        TmIszero fi t1    -> TmIszero fi (walk c t1)
 
 termSubst :: Int -> Term -> Term -> Term
 termSubst j s = walk 0
@@ -29,6 +33,10 @@ termSubst j s = walk 0
         TmIf fi t1 t2 t3  -> TmIf fi (walk c t1) (walk c t2) (walk c t3)
         TmTrue _          -> t
         TmFalse _         -> t
+        TmZero _          -> t
+        TmSucc fi t1      -> TmSucc fi (walk c t1)
+        TmPred fi t1      -> TmPred fi (walk c t1)
+        TmIszero fi t1    -> TmIszero fi (walk c t1)
 
 termSubstTop :: Term -> Term -> Term
 termSubstTop s t = termShift (-1) (termSubst 0 (termShift 1 s) t)
@@ -37,6 +45,9 @@ isVal :: Term -> Bool
 isVal TmTrue{}  = True
 isVal TmFalse{} = True
 isVal TmAbs{}   = True
+isVal TmZero{}  = True
+isVal (TmSucc _ t1) | isVal t1 = True
+                    | otherwise = False
 isVal _         = False
 
 eval1 :: Term -> Maybe Term
@@ -54,6 +65,18 @@ eval1 t = case t of
             TmIf fi t1 t2 t3 -> do
               t1' <- eval1 t1
               return $ TmIf fi t1' t2 t3
+            TmZero _ -> Nothing
+            TmSucc fi t1 | isVal t1 -> Nothing
+                         | otherwise -> TmSucc fi <$> eval1 t1
+            TmPred fi t1 | isVal t1 -> case t1 of 
+                                        TmZero _ -> return $ TmZero fi
+                                        TmSucc _ t2 -> return t2
+                                        _ -> Nothing
+                         | otherwise -> TmPred fi <$> eval1 t1
+            TmIszero fi t1 | isVal t1 -> case t1 of 
+                                           TmZero _ -> return $ TmTrue fi
+                                           _ -> return $ TmFalse fi
+                           | otherwise -> TmIszero fi <$> eval1 t1
             _ -> Nothing
 
 eval :: Term -> Term

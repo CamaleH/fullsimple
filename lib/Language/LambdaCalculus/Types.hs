@@ -4,5 +4,6 @@ module Language.LambdaCalculus.Types (
 
 data Ty = 
     TyBool
+  | TyNat
   | TyArr Ty Ty 
   deriving (Eq, Show)

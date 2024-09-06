@@ -42,3 +42,19 @@ typeOf ctx t = case t of
           then return tyT12
           else throwError (TypeErr fi "parameter type mismatch")
       _ -> throwError (TypeErr fi "arrow type expected")
+  TmZero _ -> return TyNat
+  TmSucc fi t1 -> do  
+    tyT1 <- typeOf ctx t1
+    if tyT1 == TyNat 
+      then return TyNat
+      else throwError (TypeErr fi "operand of succ is not Nat")
+  TmPred fi t1 -> do  
+    tyT1 <- typeOf ctx t1
+    if tyT1 == TyNat 
+      then return TyNat
+      else throwError (TypeErr fi "operand of pred is not Nat")
+  TmIszero fi t1 -> do  
+    tyT1 <- typeOf ctx t1
+    if tyT1 == TyNat 
+      then return TyBool
+      else throwError (TypeErr fi "operand of iszero is not Bool")

@@ -16,4 +16,8 @@ data Token = TkBackSlash
            | TkThen
            | TkElse
            | TkEOF
+           | TkZero
+           | TkSucc
+           | TkPred
+           | TkIszero
     deriving (Show, Eq)
