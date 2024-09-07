@@ -58,3 +58,4 @@ typeOf ctx t = case t of
     if tyT1 == TyNat 
       then return TyBool
       else throwError (TypeErr fi "operand of iszero is not Bool")
+  TmUnit _ -> return TyUnit

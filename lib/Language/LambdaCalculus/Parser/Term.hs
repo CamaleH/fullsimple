@@ -44,8 +44,9 @@ parseNonApp =  parens parseTerm
            <|> parseTmIf
            <|> parseTmTrue
            <|> parseTmFalse
-           <|> parseTmVar
            <|> parseTmZero
+           <|> parseTmUnit
+           <|> parseTmVar
            <|> parseTmSucc
            <|> parseTmPred
            <|> parseTmIszero
@@ -89,6 +90,12 @@ parseTmIszero :: LCParser Term
 parseTmIszero = 
   TmIszero <$> getPosition
          <*> (matchTok TkIszero >> parseTerm)
+
+parseTmUnit :: LCParser Term
+parseTmUnit = do
+  info <- getPosition
+  matchTok (TkId $ Symbol (5,BS.empty))
+  return $ TmUnit info
 
 parseTerm :: LCParser Term
 parseTerm = chainl1 parseNonApp $ TmApp <$> getPosition

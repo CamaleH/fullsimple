@@ -29,3 +29,9 @@ main = putStrLn "Hello, Haskell!"
 
 -- >>> (lexing "stdin" (BS.pack "\\f:A->A.\\x:A.f(f(x))") >>= parsing "stdin" >>= typeChecking)
 -- Right (TyArr (TyArr (TyBase "A") (TyBase "A")) (TyArr (TyBase "A") (TyBase "A")))
+
+-- >>> (lexing "stdin" (BS.pack "\\u:Unit.u") >>= parsing "stdin" >>= typeChecking)
+-- Right (TyArr TyUnit TyUnit)
+
+-- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "(\\u:Unit.u) unit") >>= parsing "stdin")
+-- Right "unit"

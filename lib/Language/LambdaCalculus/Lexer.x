@@ -58,7 +58,9 @@ alexInitUserState = AlexUserState
   , table = HM.fromList [(BS.pack "Bool",0)
                         ,(BS.pack "true",1)
                         ,(BS.pack "false",2)
-                        ,(BS.pack "Nat", 3)]
+                        ,(BS.pack "Nat", 3)
+                        ,(BS.pack "Unit", 4)
+                        ,(BS.pack "unit", 5)]
   }
 
 data InfoToken = InfoToken

@@ -20,10 +20,14 @@ parseTyNat = matchTok (TkId $ Symbol (3,BS.empty)) >> return TyNat
 parseTyBase :: LCParser Ty
 parseTyBase = TyBase <$> matchId
 
+parseTyUnit :: LCParser Ty 
+parseTyUnit = matchTok (TkId $ Symbol (4,BS.empty)) >> return TyUnit
+
 parseNonTyArr :: LCParser Ty
 parseNonTyArr = parens parseType
             <|> parseTyBool
             <|> parseTyNat
+            <|> parseTyUnit
             <|> parseTyBase
 
 parseTyArr :: LCParser (Ty -> Ty -> Ty)

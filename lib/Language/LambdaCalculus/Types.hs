@@ -9,4 +9,5 @@ data Ty =
   | TyNat
   | TyArr Ty Ty 
   | TyBase Symbol
+  | TyUnit
   deriving (Eq, Show)

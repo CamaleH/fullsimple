@@ -20,6 +20,7 @@ data Term =
   | TmSucc Info Term
   | TmPred Info Term
   | TmIszero Info Term
+  | TmUnit Info
   deriving (Show)
 
 getInfo :: Term -> Info
@@ -33,3 +34,4 @@ getInfo (TmZero info) = info
 getInfo (TmSucc info _) = info
 getInfo (TmPred info _) = info
 getInfo (TmIszero info _) = info
+getInfo (TmUnit info) = info

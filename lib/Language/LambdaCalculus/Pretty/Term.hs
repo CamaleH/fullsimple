@@ -22,3 +22,4 @@ printTm ctx t = case t of
   TmSucc _ t1 -> "succ " ++ printTm ctx t1
   TmPred _ t1 -> "pred " ++ printTm ctx t1
   TmIszero _ t1 -> "iszero " ++ printTm ctx t1
+  TmUnit _ -> "unit"

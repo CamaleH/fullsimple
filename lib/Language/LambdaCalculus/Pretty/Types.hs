@@ -8,3 +8,4 @@ printType :: Ty -> String
 printType TyBool = "Bool"
 printType (TyArr t1 t2) = "(" ++ printType t1 ++ "->" ++ printType t2 ++ ")"
 printType (TyBase sym) = show sym
+printType TyUnit = "Unit"

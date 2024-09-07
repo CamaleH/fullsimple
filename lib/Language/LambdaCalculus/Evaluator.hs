@@ -20,6 +20,7 @@ termShift d = walk 0
         TmSucc fi t1      -> TmSucc fi (walk c t1)
         TmPred fi t1      -> TmPred fi (walk c t1)
         TmIszero fi t1    -> TmIszero fi (walk c t1)
+        TmUnit _         -> t
 
 termSubst :: Int -> Term -> Term -> Term
 termSubst j s = walk 0
@@ -37,6 +38,7 @@ termSubst j s = walk 0
         TmSucc fi t1      -> TmSucc fi (walk c t1)
         TmPred fi t1      -> TmPred fi (walk c t1)
         TmIszero fi t1    -> TmIszero fi (walk c t1)
+        TmUnit _          -> t
 
 termSubstTop :: Term -> Term -> Term
 termSubstTop s t = termShift (-1) (termSubst 0 (termShift 1 s) t)
@@ -46,6 +48,7 @@ isVal TmTrue{}  = True
 isVal TmFalse{} = True
 isVal TmAbs{}   = True
 isVal TmZero{}  = True
+isVal TmUnit{}  = True
 isVal (TmSucc _ t1) | isVal t1 = True
                     | otherwise = False
 isVal _         = False
