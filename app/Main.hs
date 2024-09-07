@@ -26,3 +26,6 @@ main = putStrLn "Hello, Haskell!"
 
 -- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "iszero ((\\x:Nat.succ x) 0)") >>= parsing "stdin")
 -- Right "false"
+
+-- >>> (lexing "stdin" (BS.pack "\\f:A->A.\\x:A.f(f(x))") >>= parsing "stdin" >>= typeChecking)
+-- Right (TyArr (TyArr (TyBase "A") (TyBase "A")) (TyArr (TyBase "A") (TyBase "A")))
