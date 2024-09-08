@@ -28,6 +28,7 @@ tokens :-
 -- Keywords
 <0>  "."                            { tok TkDot }
 <0>  ":"                            { tok TkColon }
+<0>  ";"                            { tok TkSemiColon }
 <0>  "->"                           { tok TkArrow }
 <0>  "\"                            { tok TkBackSlash }
 <0>  "("                            { tok TkLpar }

@@ -35,3 +35,16 @@ main = putStrLn "Hello, Haskell!"
 
 -- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "(\\u:Unit.u) unit") >>= parsing "stdin")
 -- Right "unit"
+
+-- >>> (lexing "stdin" (BS.pack "\\xxx:Bool. xxx") >>= parsing "stdin")
+-- Right (TmAbs "stdin" (line 1, column 1) "xxx" TyBool (TmVar (line 1, column 12) 0 1))
+
+-- >>> (lexing "stdin" (BS.pack "((\\u:Unit.u) unit) ; true") >>= parsing "stdin" >>= typeChecking)
+-- Right TyBool
+
+-- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "((\\u:Unit.u) unit) ; true") >>= parsing "stdin")
+-- Right "true"
+
+-- >>> (lexing "stdin" (BS.pack "((\\u:Unit.u) unit); unit ; unit ; true") >>= parsing "stdin" >>= typeChecking)
+-- Right TyBool
+

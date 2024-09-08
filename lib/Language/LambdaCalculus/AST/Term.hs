@@ -1,6 +1,7 @@
 module Language.LambdaCalculus.AST.Term (
     Info(..)
   , Term(..)
+  , getInfo
 ) where
 
 import Language.LambdaCalculus.Types

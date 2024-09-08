@@ -38,8 +38,8 @@ parseTmAbs = do
   putState oldctx
   return $ TmAbs info v ty term
 
-parseNonApp :: LCParser Term
-parseNonApp =  parens parseTerm
+parseNonSeq :: LCParser Term
+parseNonSeq =  parens parseTerm
            <|> parseTmAbs
            <|> parseTmIf
            <|> parseTmTrue
@@ -50,6 +50,21 @@ parseNonApp =  parens parseTerm
            <|> parseTmSucc
            <|> parseTmPred
            <|> parseTmIszero
+
+parseSeq' :: LCParser (Term -> Term)
+parseSeq' = do
+  matchTok TkSemiColon
+  modifyState (Symbol (-1, BS.pack "_") :)
+  v <- parseNonSeq
+  modifyState tail
+  m <- option id parseSeq'
+  return $ \u -> m (TmApp (getInfo u) (TmAbs (getInfo v) (Symbol (-1, BS.pack "_")) TyUnit v) u)
+
+parseNonApp :: LCParser Term
+parseNonApp = do
+  u <- parseNonSeq
+  m <- option id parseSeq'
+  return $ m u
 
 parseTmIf :: LCParser Term
 parseTmIf =

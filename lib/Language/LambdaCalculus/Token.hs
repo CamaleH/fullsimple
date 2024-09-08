@@ -9,6 +9,7 @@ data Token = TkBackSlash
            | TkId Symbol
            | TkDot
            | TkColon
+           | TkSemiColon
            | TkArrow
            | TkLpar
            | TkRpar
