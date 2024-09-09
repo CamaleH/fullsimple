@@ -59,3 +59,8 @@ typeOf ctx t = case t of
       then return TyBool
       else throwError (TypeErr fi "operand of iszero is not Bool")
   TmUnit _ -> return TyUnit
+  TmAscri fi t1 ty -> do 
+    tyT1 <- typeOf ctx t1 
+    if tyT1 == ty
+      then return tyT1
+      else throwError (TypeErr fi "Ascription is not consititued with actual type")

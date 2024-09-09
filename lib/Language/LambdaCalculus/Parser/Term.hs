@@ -38,8 +38,8 @@ parseTmAbs = do
   putState oldctx
   return $ TmAbs info v ty term
 
-parseNonSeq :: LCParser Term
-parseNonSeq =  parens parseTerm
+parseNonAscri :: LCParser Term
+parseNonAscri = parens parseTerm
            <|> parseTmAbs
            <|> parseTmIf
            <|> parseTmTrue
@@ -50,6 +50,18 @@ parseNonSeq =  parens parseTerm
            <|> parseTmSucc
            <|> parseTmPred
            <|> parseTmIszero
+
+parseAscri' :: LCParser (Term -> Term)
+parseAscri' = do 
+  matchTok TkAs
+  ty <- parseType
+  return $ \u -> TmAscri (getInfo u) u ty
+
+parseNonSeq :: LCParser Term
+parseNonSeq = do
+  u <- parseNonAscri
+  m <- option id parseAscri'
+  return $ m u
 
 parseSeq' :: LCParser (Term -> Term)
 parseSeq' = do

@@ -22,6 +22,7 @@ data Term =
   | TmPred Info Term
   | TmIszero Info Term
   | TmUnit Info
+  | TmAscri Info Term Ty
   deriving (Show)
 
 getInfo :: Term -> Info

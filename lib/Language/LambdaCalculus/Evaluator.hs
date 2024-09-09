@@ -20,7 +20,8 @@ termShift d = walk 0
         TmSucc fi t1      -> TmSucc fi (walk c t1)
         TmPred fi t1      -> TmPred fi (walk c t1)
         TmIszero fi t1    -> TmIszero fi (walk c t1)
-        TmUnit _         -> t
+        TmUnit _          -> t
+        TmAscri fi t1 ty  -> TmAscri fi (walk c t1) ty
 
 termSubst :: Int -> Term -> Term -> Term
 termSubst j s = walk 0
@@ -39,6 +40,7 @@ termSubst j s = walk 0
         TmPred fi t1      -> TmPred fi (walk c t1)
         TmIszero fi t1    -> TmIszero fi (walk c t1)
         TmUnit _          -> t
+        TmAscri fi t1 ty  -> TmAscri fi (walk c t1) ty
 
 termSubstTop :: Term -> Term -> Term
 termSubstTop s t = termShift (-1) (termSubst 0 (termShift 1 s) t)
@@ -80,6 +82,8 @@ eval1 t = case t of
                                            TmZero _ -> return $ TmTrue fi
                                            _ -> return $ TmFalse fi
                            | otherwise -> TmIszero fi <$> eval1 t1
+            TmAscri fi t1 ty | isVal t1 -> return t1
+                             | otherwise -> (\t-> TmAscri fi t ty) <$> eval1 t1
             _ -> Nothing
 
 eval :: Term -> Term

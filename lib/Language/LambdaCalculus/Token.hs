@@ -21,4 +21,5 @@ data Token = TkBackSlash
            | TkSucc
            | TkPred
            | TkIszero
+           | TkAs
     deriving (Show, Eq)

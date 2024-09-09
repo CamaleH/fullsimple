@@ -40,6 +40,7 @@ tokens :-
 <0>  succ                           { tok TkSucc }
 <0>  pred                           { tok TkPred }
 <0>  iszero                         { tok TkIszero }
+<0>  as                             { tok TkAs }
 -- Identifiers
 <0>  @id                            { tokId }
 
