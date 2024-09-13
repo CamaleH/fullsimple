@@ -64,3 +64,7 @@ typeOf ctx t = case t of
     if tyT1 == ty
       then return tyT1
       else throwError (TypeErr fi "Ascription is not consititued with actual type")
+  TmLet fi x t1 t2 -> do
+    tyT1 <- typeOf ctx t1
+    let ctx' = addBinding tyT1 ctx
+    typeOf ctx' t2

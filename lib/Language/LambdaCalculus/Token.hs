@@ -22,4 +22,7 @@ data Token = TkBackSlash
            | TkPred
            | TkIszero
            | TkAs
+           | TkLet
+           | TkAssign
+           | TkIn
     deriving (Show, Eq)

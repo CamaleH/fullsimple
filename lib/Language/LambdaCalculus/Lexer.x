@@ -33,6 +33,7 @@ tokens :-
 <0>  "\"                            { tok TkBackSlash }
 <0>  "("                            { tok TkLpar }
 <0>  ")"                            { tok TkRpar }
+<0>  "="                            { tok TkAssign }
 <0>  if                             { tok TkIf }
 <0>  then                           { tok TkThen }
 <0>  else                           { tok TkElse }
@@ -41,6 +42,8 @@ tokens :-
 <0>  pred                           { tok TkPred }
 <0>  iszero                         { tok TkIszero }
 <0>  as                             { tok TkAs }
+<0>  let                            { tok TkLet }
+<0>  in                             { tok TkIn }
 -- Identifiers
 <0>  @id                            { tokId }
 

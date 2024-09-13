@@ -23,3 +23,6 @@ printTm ctx t = case t of
   TmPred _ t1 -> "pred " ++ printTm ctx t1
   TmIszero _ t1 -> "iszero " ++ printTm ctx t1
   TmUnit _ -> "unit"
+  TmLet _ x t1 t2 -> 
+    let ctx' = addBinding (show x) ctx
+    in "(let " ++ show x ++ "=" ++ printTm ctx t1 ++ " in " ++ printTm ctx' t2 ++ ")"

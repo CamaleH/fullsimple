@@ -22,6 +22,7 @@ termShift d = walk 0
         TmIszero fi t1    -> TmIszero fi (walk c t1)
         TmUnit _          -> t
         TmAscri fi t1 ty  -> TmAscri fi (walk c t1) ty
+        TmLet fi x t1 t2  -> TmLet fi x t1 (walk (c+1) t2)
 
 termSubst :: Int -> Term -> Term -> Term
 termSubst j s = walk 0
@@ -41,6 +42,7 @@ termSubst j s = walk 0
         TmIszero fi t1    -> TmIszero fi (walk c t1)
         TmUnit _          -> t
         TmAscri fi t1 ty  -> TmAscri fi (walk c t1) ty
+        TmLet fi x t1 t2  -> TmLet fi x (walk c t1) (walk (c+1) t2)
 
 termSubstTop :: Term -> Term -> Term
 termSubstTop s t = termShift (-1) (termSubst 0 (termShift 1 s) t)
@@ -84,6 +86,9 @@ eval1 t = case t of
                            | otherwise -> TmIszero fi <$> eval1 t1
             TmAscri fi t1 ty | isVal t1 -> return t1
                              | otherwise -> (\t-> TmAscri fi t ty) <$> eval1 t1
+            TmLet fi x v1 t2 | isVal v1 ->
+              return $ termSubstTop v1 t2 
+                             | otherwise -> (\t->TmLet fi x t t2) <$> eval1 v1
             _ -> Nothing
 
 eval :: Term -> Term

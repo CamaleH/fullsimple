@@ -23,6 +23,7 @@ data Term =
   | TmIszero Info Term
   | TmUnit Info
   | TmAscri Info Term Ty
+  | TmLet Info Symbol Term Term
   deriving (Show)
 
 getInfo :: Term -> Info
@@ -37,3 +38,4 @@ getInfo (TmSucc info _) = info
 getInfo (TmPred info _) = info
 getInfo (TmIszero info _) = info
 getInfo (TmUnit info) = info
+getInfo (TmLet info _ _ _) = info

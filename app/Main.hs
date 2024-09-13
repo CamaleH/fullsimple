@@ -54,3 +54,9 @@ main = putStrLn "Hello, Haskell!"
 -- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "((\\u:Unit.u) as (Unit->Unit) unit) ; true") >>= parsing "stdin")
 -- Right "true"
 
+-- >>> (lexing "stdin" (BS.pack "let x=0 in succ x") >>= parsing "stdin" >>= typeChecking)
+-- Right TyNat
+
+-- >>> printTerm.eval <$> (lexing "stdin" (BS.pack "let x=0 in succ x") >>= parsing "stdin") 
+-- Right "succ 0"
+

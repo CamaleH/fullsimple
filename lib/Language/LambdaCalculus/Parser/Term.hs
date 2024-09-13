@@ -38,6 +38,20 @@ parseTmAbs = do
   putState oldctx
   return $ TmAbs info v ty term
 
+parseTmLet :: LCParser Term
+parseTmLet = do
+  info <- getPosition
+  matchTok TkLet
+  v <- matchId
+  matchTok TkAssign
+  t <- parseTerm
+  oldctx <- getState
+  putState (v:oldctx)
+  matchTok TkIn
+  term <- parseTerm
+  putState oldctx
+  return $ TmLet info v t term
+
 parseNonAscri :: LCParser Term
 parseNonAscri = parens parseTerm
            <|> parseTmAbs
@@ -50,6 +64,7 @@ parseNonAscri = parens parseTerm
            <|> parseTmSucc
            <|> parseTmPred
            <|> parseTmIszero
+           <|> parseTmLet
 
 parseAscri' :: LCParser (Term -> Term)
 parseAscri' = do 
